@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import quotesData from "./data";
+import "./App.css";
+import { QuoteBox } from "./components/QuoteBox";
 
-function App() {
+const randomNumber = () =>
+  Math.round(Math.random() * (quotesData.length - 1 - 0) + 0);
+
+const hexSigns = [
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+];
+
+const randomHexColor = () => {
+  let hexNumb = "#";
+  for (let i = 0; i < 6; i++) {
+    hexNumb += hexSigns[Math.floor(Math.random() * 16)];
+  }
+  return hexNumb;
+};
+
+const App = () => {
+  const [quote, setQuote] = useState(quotesData[randomNumber()]);
+  const [style, setStyle] = useState({ backgroundColor: randomHexColor() });
+
+  const handleNewQuote = () => {
+    setQuote(quotesData[randomNumber()]);
+    setStyle({ backgroundColor: randomHexColor() });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main" style={style}>
+      <QuoteBox handleNewQuote={handleNewQuote} quote={quote} style={style} />
     </div>
   );
-}
+};
 
 export default App;
